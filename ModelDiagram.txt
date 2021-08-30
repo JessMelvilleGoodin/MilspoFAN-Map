@@ -1,0 +1,90 @@
+https://app.quickdatabasediagrams.com/
+
+
+User
+-
+id PK int
+username
+password
+
+# DiscToMemberM2M
+# -
+# id PK int
+# discipline_id FK -< ArtisticDisciplines.id
+# member_id FK -< MemberProfile.user_id
+
+DiscToReccomendationM2M
+-
+id PK int
+discipline_id FK -< ArtisticDisciplines.id
+rec_id FK -< Reccomendation.id
+
+ArtisticDisciplines
+-
+id PK int
+dicipline_name
+members(RELATEDNAME)
+
+MemberProfile
+-
+id PK int
+user_id FK - User.id
+display_name string
+name_on_blog string
+email email
+artist_bio string
+website link
+image link
+hashtags string
+artistic_disciplines(RELATEDNAME)
+social_links(RELATEDNAME)
+locations(RELATEDNAME)
+
+MemberSocialLink
+-
+id PK intmember_id FK >- MemberProfile.user_id
+social_url
+
+MemberLocation
+-
+id PK intmember_id FK >- MemberProfile.user_id
+location string
+year_arrived date
+year_departed date
+
+Reccomendation
+-
+id PK int
+rec_name string
+rec_description string
+rec_notes string
+rec_hashtags string
+rec_location string
+rec_website url
+reccomended_by FK - MemberProfile.user_id
+rec_discipline(RELATEDNAME)
+
+RecComment
+-
+id PK int
+commenting_member_id FK - MemberProfile.user_id
+reccomendation_id FK - Reccomendation.id
+text_body string
+
+Announcement
+-
+id PK int
+member_id FK - MemberProfile.user_id
+headline string
+text_body string
+hashtags string
+
+BlogPostInfo
+-
+id PK int
+blogpost_link url
+blogpost_title string
+blogpost_location string
+blogpost_artist_name string
+member_id FK - MemberProfile.user_id
+

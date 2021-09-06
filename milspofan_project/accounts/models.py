@@ -5,6 +5,22 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.timezone import now
 
 
+class MemberArtisticDiscipline(models.Model):
+    ARTS_DISC_CHOICES = [
+        # First value shows up as KEY in form(for JS), second is human- readable
+        ('Dance', 'Dance'),
+        ('Theatre', 'Theatre'),
+        ('Painting', 'Painting'),
+        ('Nothing Selected', 'Nothing Selected')
+    ]
+    artistic_discipline = models.CharField(
+        max_length=200,
+        choices = ARTS_DISC_CHOICES,
+    )
+    # members = models.ManyToManyField(MemberProfile, related_name='artistic_disciplines', blank=True)
+    def __str__(self):
+        return f"{self.artistic_discipline}, {self.pk}"
+
 #--- Main custom User class 
 class MemberProfile(AbstractUser):
     class Meta:
@@ -18,9 +34,20 @@ class MemberProfile(AbstractUser):
     image_url = models.URLField(max_length=300, null=True, blank=True)
     hashtags = models.TextField(max_length=2000, null=True, blank=True)
     public_profile= models.BooleanField(default=False)
+    artistic_disciplines = models.ManyToManyField(MemberArtisticDiscipline, related_name='members', blank=True)
+    
     # location (related_name of MemberLocation) FIELDS: member,location, year_arrived, year_departed
     # social_links (related_name of MemberSocialLink)FIELDS:  member, social_link
-    # artistic_discipline (related_name of milspofan_app.ArtisticDiscipline) FIELDS: name, members
+    # artistic_discipline (related_name of milspofan_app.MemberArtisticDiscipline) FIELDS: name, members
+    
+    
+    # def list_discs(self):
+    #     q_set = self.artistic_disciplines.all()
+    #     ad_names = [axdx.artistic_discipline for axdx in q_set]
+        
+    #     print("HERE IS THE AD LIST: ", ad_names)
+    #     return ad_names
+
     def __str__(self):
         return f"{self.username}-- Name on Blog: {self.name_on_blog}"
 
@@ -45,7 +72,7 @@ class MemberLocation(models.Model):
         blank=True, null= True
     )
     def __str__(self):
-        return f"{self.location};  Member: {self.member} arrived: {self.year_arrived}, departed: {self.year_departed}"
+        return f"{self.location};  {self.year_arrived} - {self.year_departed}"
 
 class MemberSocialLink(models.Model):
     # members can have multiple SocialLinks, MemberSocialLinks have only one member
@@ -56,7 +83,9 @@ class MemberSocialLink(models.Model):
         return f"{self.social_link};  Member: {self.member}"
 
 class MemberAnnouncement(models.Model):
+    # members can have multiple MemberAnnouncements, MemberAnnouncements have only one member
     member = models.ForeignKey(MemberProfile, on_delete=models.CASCADE, related_name='announcements')
-    # member_id=member.id
     body_text = models.CharField(max_length=500)
     date = models.DateTimeField(default=now, editable=True)
+    def __str__(self):
+        return f"{self.body_text}"

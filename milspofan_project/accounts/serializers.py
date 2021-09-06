@@ -1,11 +1,16 @@
 from milspofan_app.models import Recommendation
 from rest_framework import serializers
-from .models import MemberProfile, MemberLocation, MemberSocialLink, MemberAnnouncement
+from .models import MemberProfile, MemberLocation, MemberSocialLink, MemberAnnouncement, MemberArtisticDiscipline
+
+
+class MemberArtisticDisciplineSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MemberArtisticDiscipline
+        fields = ['artistic_discipline']
+    
 
 class MemberLocationSerializer(serializers.ModelSerializer):
-    # member = MemberProfile.objects.filter(member=self.kwargs['members_pk'])
-    # member = serializers.StringRelatedField(read_only=True)
-    # member = MemberProfile.objects.filter(id=3)
+    member = serializers.StringRelatedField(read_only=True)
     class Meta:
         model = MemberLocation
         fields = ['member','location','show_pin','year_arrived','year_departed']
@@ -13,23 +18,33 @@ class MemberLocationSerializer(serializers.ModelSerializer):
         #     'member':{'read_only': True}
         # }
 
-        def create(self, validated_data):
-            print("ENTER CREATE METHOD")
-            this_member = MemberProfile.objects.filter(member=self.kwargs['members_pk'])
-            location = MemberLocation.objects.create(**validated_data, member=this_member)
-            print("MEMBER: ", this_member, " --- LOCATION: ", location.location, "--- Location-Member: ", location.member)
-            return location
+    def create(self, validated_data):
+        this_member = self.context["request"].user
+        location = MemberLocation.objects.create(**validated_data, member=this_member)
+        return location
 
 class MemberSocialLinkSerializer(serializers.ModelSerializer):
+    member = serializers.StringRelatedField(read_only=True)
     
     class Meta:
         model = MemberSocialLink
         fields = ['member', 'social_link',]
+    
+    def create(self, validated_data):
+        this_member = self.context["request"].user
+        soc_link = MemberSocialLink.objects.create(**validated_data, member=this_member)
+        return soc_link
 
 class MemberAnnouncementSerializer(serializers.ModelSerializer):
+    member = serializers.StringRelatedField(read_only=True)
     class Meta:
         model = MemberAnnouncement
         fields = ['member', 'body_text', 'date']
+    
+    def create(self, validated_data):
+        this_member = self.context["request"].user
+        announcement = MemberAnnouncement.objects.create(**validated_data, member=this_member)
+        return announcement
 
 class MemberSerializer(serializers.ModelSerializer):
     locations = serializers.StringRelatedField(many=True,read_only=True)
@@ -41,28 +56,15 @@ class MemberSerializer(serializers.ModelSerializer):
 
     recommendations = serializers.StringRelatedField(many=True, read_only=True)
     
+    artistic_disciplines = MemberArtisticDisciplineSerializer(many=True)
+
     class Meta:
         model = MemberProfile
-        fields = ['username', 'name_on_blog', 'email', 'artist_bio', 'website', 'image_url', 'hashtags', 'public_profile', 'locations', 'social_links', 'announcements', 'recommendations']
+        fields = ['username', 'name_on_blog', 'email', 'artist_bio', 'website', 'image_url', 'hashtags', 'public_profile', 'locations', 'social_links', 'announcements', 'recommendations'
+        , 'artistic_disciplines'
+        ]
 
-    # def create(self, validated_data):
-    #     locations = validated_data.pop('locations')
-    #     member = MemberProfile.objects.create(**validated_data)
-    #     for location in locations:
-    #         myplace = MemberLocation.objects.get(name=location["name"])
-    #         member.locations.add(myplace)
-    #     return member
-        
-
-    # def create(self, validated_data):
-    #     print("CREATE MEMBER IS CALLED")
-    #     locations = validated_data.pop('locations')
-    #     member = MemberProfile.objects.create(**validated_data)
-    #     for location in locations:
-    #         print(location)
-    #         mylocation = MemberLocation.objects.get(location=location["location"])
-    #         member.locations.add(mylocation)
-    #     return member
-
-
-
+class SignupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MemberProfile
+        fields = ["username", "password", "name_on_blog", "email", "artist_bio", "website", "image_url", "hashtags", "public_profile", "artistic_disciplines"]

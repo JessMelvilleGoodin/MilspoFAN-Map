@@ -1,10 +1,10 @@
 from rest_framework_nested import routers
-from .views import ArtisticDisciplineViewSet, RecommendationViewSet, RecCommentViewSet, BlogPostInfo
+from .views import RecArtisticDisciplineViewSet, RecommendationViewSet, RecCommentViewSet, BlogPostInfo
 from django.urls import path, include
 
 router = routers.SimpleRouter()
 
-router.register(r'artx-discx', ArtisticDisciplineViewSet)
+router.register(r'artx-discx', RecArtisticDisciplineViewSet)
 
 router.register(r'recs', RecommendationViewSet)
 
@@ -30,11 +30,11 @@ urlpatterns = [
 
 # from django.urls import path, include
 # from django.conf.urls import url
-# from .views import ArtisticDisciplineViewSet, RecommendationViewSet, RecCommentViewSet, BlogPostInfo
+# from .views import RecArtisticDisciplineViewSet, RecommendationViewSet, RecCommentViewSet, BlogPostInfo
 # from rest_framework.routers import DefaultRouter
 
 # router = DefaultRouter()
-# router.register(r'artx-discx', ArtisticDisciplineViewSet, basename='Artistic Disciplines')
+# router.register(r'artx-discx', RecArtisticDisciplineViewSet, basename='Artistic Disciplines')
 
 # router.register(r'recs', RecommendationViewSet, basename='Recommendations')
 

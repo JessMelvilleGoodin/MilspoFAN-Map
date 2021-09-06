@@ -6,9 +6,37 @@ Set up a web app using DRF/ Django and React that can:
         MemberProfile
         MemberLocations -> MemberProfile
         ArtisticDiscipline (constrained choices created only by superuser)
+        Social Links
+        Announcements
+        
   Display MemberProfile and Recommendation: 
     - ListView
     - Detail view for MemberProfile and Recommendation
+
+
+  Backend Endpoints:
+    /members-api/members = MemberList
+      >> /members-api/members/<member_pk>/ = Member Instance (aka Member Detail)
+        >>  /members-api/members/<member_pk>/locations/ = Member Location List
+          >>  /members-api/members/<member_pk>/locations/<location_pk> = Member Location Instance
+
+        >>  /members-api/members/<member_pk>/social_links = Member Social Link List
+          >>  /members-api/members/<member_pk>/social_links/<social_link_pk> = Member Social Link Instance
+
+        >>  /members-api/members/<member_pk>/accouncements/ = Member Announcement List
+          >>  /members-api/members/<member_pk>/announcements/<announcement_pk> = Member Announcement Instance
+    
+    /recommendations-api/recs/ = Recommendation List
+      >> /recommendations-api/recs/<reccomendation_pk>/ = Recommendation Instance
+        >> /recommendations-api/recs/<reccomendation_pk>/comments = Recommendation Rec Comment List
+          >> /recommendations-api/recs/<reccomendation_pk>/comments/<comment_pk> = Rec Comment Instance
+      
+      >> /recommendations-api/artx-discx = Artistic Discipline List
+
+      >> /recommendations-api/blog-posts/ = Blog Post Info
+
+  Frontend Endpoints
+
 
 
 v 1.1:

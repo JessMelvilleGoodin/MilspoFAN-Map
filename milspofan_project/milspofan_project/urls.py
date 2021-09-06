@@ -18,6 +18,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('members-api/', include('accounts.urls')),
-    path('recommendations-api/', include('milspofan_app.urls'))
+    path('members-api/', include('accounts.urls'), name='all-members'),
+    # path('accounts/', include('accounts.urls')),
+    path('recommendations-api/', include('milspofan_app.urls')),
 ]

@@ -2,11 +2,21 @@ from django.db import models
 from accounts.models import MemberProfile
 from django.utils.timezone import now
 
-class ArtisticDiscipline(models.Model):
-    name = models.CharField(max_length=200)  
-    members = models.ManyToManyField(MemberProfile, related_name='artistic_disciplines', blank=True)
+class RecArtisticDiscipline(models.Model):
+    ARTS_DISC_CHOICES = [
+        # First value shows up as KEY in form(for JS), second is human- readable
+        ('Dance', 'Dance'),
+        ('Theatre', 'Theatre'),
+        ('Painting', 'Painting'),
+        ('Nothing Selected', 'Nothing Selected')
+    ]
+    artistic_discipline = models.CharField(
+        max_length=200,
+        choices = ARTS_DISC_CHOICES,
+    )
+
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.artistic_discipline}"
 
 class Recommendation(models.Model):
     class Meta:
@@ -22,7 +32,7 @@ class Recommendation(models.Model):
     website = models.URLField(blank=True)
     recommended_by = models.ForeignKey(MemberProfile, on_delete=models.CASCADE, related_name='recommendations')
     rec_date = models.DateTimeField(default=now, editable=True)
-    artistic_disciplines = models.ManyToManyField(ArtisticDiscipline, related_name='recommendations', blank=True)
+    artistic_disciplines = models.ManyToManyField(RecArtisticDiscipline, related_name='recommendations', blank=True)
     # comments will come from related_name from RecComment implementation
 
     def __str__(self):
@@ -35,11 +45,6 @@ class RecComment(models.Model):
     date = models.DateTimeField(default=now, editable=True)
 
     
-
-# class ADtoRecJoin(models.Model):
-#     recommendation = models.ForeignKey(Recommendation, on_delete=models.CASCADE)
-#     artistic_discipline = models.ForeignKey(ArtisticDiscipline, on_delete=models.CASCADE)
-
 class BlogPostInfo(models.Model):
     artist = models.ForeignKey(MemberProfile, on_delete=models.CASCADE, related_name='blog_posts')
     link = models.URLField()

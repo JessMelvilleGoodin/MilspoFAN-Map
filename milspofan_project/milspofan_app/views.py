@@ -1,14 +1,14 @@
 from django.db.models import query
 from django.shortcuts import render
-from .models import ArtisticDiscipline, Recommendation, RecComment, BlogPostInfo
-from .serializers import ArtisticDisciplineSerializer, RecommendationSerializer, RecCommentSerializer, BlogPostInfoSerializer
+from .models import RecArtisticDiscipline, Recommendation, RecComment, BlogPostInfo
+from .serializers import RecArtisticDisciplineSerializer, RecommendationSerializer, RecCommentSerializer, BlogPostInfoSerializer
 from rest_framework import generics
 from rest_framework import viewsets
 
-class ArtisticDisciplineViewSet(viewsets.ModelViewSet):
+class RecArtisticDisciplineViewSet(viewsets.ModelViewSet):
     # CRUD shoudl be RESTRICTED TO AUTHORIZED USERS (at least initially)
-    queryset = ArtisticDiscipline.objects.all()
-    serializer_class = ArtisticDisciplineSerializer
+    queryset = RecArtisticDiscipline.objects.all()
+    serializer_class = RecArtisticDisciplineSerializer
 
 class RecommendationViewSet(viewsets.ModelViewSet):
     queryset = Recommendation.objects.all()

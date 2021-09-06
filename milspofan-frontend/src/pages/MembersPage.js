@@ -1,21 +1,24 @@
 import React from "react";
 import { useState, useContext, useEffect } from "react";
 import MembersList from '../components/MembersList/MembersList.js'
-import fetchRecs from '../api/RecommendationsAPI.js'
+// import fetchRecs from '../api/RecommendationsAPI.js'
 import {fetchMembers} from '../api/MembersAPI.js'
-import { Redirect } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
 import UserContext from '../context/UserContext.js'
 
 
 const MembersPage = ({history}) => {
   const [members, setMembers] = useState();
   const userInfo = useContext(UserContext)
-
+  
   useEffect( () => {
     
     const getMembers = async () => {
-      let the_members = await fetchMembers()
-      setMembers(the_members)
+      if (userInfo.token){
+        let token = userInfo.token
+        let the_members = await fetchMembers(token)
+        setMembers(the_members)
+      }
     }
 
   getMembers()
@@ -30,10 +33,10 @@ const MembersPage = ({history}) => {
 
       // if logged in
       // if (document.cookie.csrftoken){
-      if (userInfo.token){
+      // if (userInfo.token){
         return (
           <div>
-              <h2>Members: </h2>
+              <h2>MilspoFAN Members: </h2>
               <MembersList members={members}
               // handleTitleClick={(memberID) => history.push(`/members/${memberID}`) } 
               />
@@ -41,8 +44,8 @@ const MembersPage = ({history}) => {
         );
       }
       // if not logged in 
-      else {return  <Redirect to="/login" />}
-    }    
+      // else {return  <Redirect to="/login" />}
+    // }    
   }
 
 

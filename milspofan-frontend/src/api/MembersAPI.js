@@ -5,9 +5,16 @@ import { Redirect } from "react-router-dom";
 // let usersDatabase = require('http://127.0.0.1:8000/members-api/members/')
 
 // Fetch all the members:
-const fetchMembers = async () => {
+const fetchMembers = async (token) => {
+  let options = {
+    method: 'GET', 
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Token ${token}`  
+    },
+    }
   try{
-    let response = await fetch(`http://127.0.0.1:8000/members-api/members/`)
+    let response = await fetch(`http://127.0.0.1:8000/members-api/members/`, options)
     let data = await response.json()
     return data
   } catch (error) {

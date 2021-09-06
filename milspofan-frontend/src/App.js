@@ -46,6 +46,11 @@ function App() {
     console.log(token, loggedInMember)
   }
 
+  const buildAuthHeader = () =>{
+    
+
+  }
+
   let contextValue = {
     loggedInMember: loggedInMember,  
     token: token,

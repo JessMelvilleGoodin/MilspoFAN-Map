@@ -1,16 +1,22 @@
 import React from 'react'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import RecsList from '../components/RecsList/RecsList.js'
 import fetchRecs from '../api/RecommendationsAPI.js'
-
+import UserContext from "../context/UserContext"
 
 const RecommendationsPage = ({history}) => {
   const [recs, setRecs] = useState();
-  
+  const userInfo = useContext(UserContext)
+  // let token = userInfo.token
+
   useEffect( () => {
+    
     const getRecs = async () => {
-        let the_recs = await fetchRecs()
+      if (userInfo.token){
+        let token = userInfo.token
+        let the_recs = await fetchRecs(token)
         setRecs(the_recs)
+      }
       }
     
   getRecs()

@@ -5,10 +5,10 @@ Set up a web app using DRF/ Django and React that can:
         Recommendations
         MemberProfile
         MemberLocations -> MemberProfile
-        ArtisticDiscipline (constrained choices created only by superuser)
+        ArtisticDiscipline (constrained choices created only by superuser or hard-coded)
         Social Links
         Announcements
-        
+
   Display MemberProfile and Recommendation: 
     - ListView
     - Detail view for MemberProfile and Recommendation
@@ -126,3 +126,8 @@ v 4:
     blogpost_location
     blogpost_artist_name?(may be redundant with user_id)
     user_id FK -> User
+
+Resources:
+  Checkboxes : https://www.freecodecamp.org/news/how-to-work-with-multiple-checkboxes-in-react/
+  
+  Using reduce to filter an array: https://24ways.org/2019/five-interesting-ways-to-use-array-reduce/

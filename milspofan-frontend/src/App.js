@@ -4,7 +4,7 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import HomePage from './pages/HomePage.js'
 import MembersPage from './pages/MembersPage.js' 
 import RecommendationsPage from './pages/RecommendationsPage.js'
-import Signup from "./components/Signup/Signup.js";
+import SignupPage from "./pages/SignupPage.js";
 import LoginPage from "./pages/LoginPage.js";
 import LogoutPage from "./pages/LogoutPage.js";
 import UserContext from './context/UserContext.js'
@@ -47,7 +47,7 @@ function App() {
   }
 
   const buildAuthHeader = () =>{
-    
+
 
   }
 
@@ -65,7 +65,7 @@ function App() {
             <AppNavLinks/>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/members" component={MembersPage} />
-            <Route path="/signup" component={Signup} />
+            <Route path="/signup" component={SignupPage} />
             <Route exact path="/recs" component={RecommendationsPage} />
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/logout" component={LogoutPage} />

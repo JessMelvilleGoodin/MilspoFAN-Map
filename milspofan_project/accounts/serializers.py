@@ -6,14 +6,14 @@ from .models import MemberProfile, MemberLocation, MemberSocialLink, MemberAnnou
 class MemberArtisticDisciplineSerializer(serializers.ModelSerializer):
     class Meta:
         model = MemberArtisticDiscipline
-        fields = ['artistic_discipline']
+        fields = ['pk', 'id','artistic_discipline']
     
 
 class MemberLocationSerializer(serializers.ModelSerializer):
     member = serializers.StringRelatedField(read_only=True)
     class Meta:
         model = MemberLocation
-        fields = ['member','location','show_pin','year_arrived','year_departed']
+        fields = ['pk', 'id', 'member','location','show_pin','year_arrived','year_departed']
         # extra_kwargs = {
         #     'member':{'read_only': True}
         # }
@@ -28,7 +28,7 @@ class MemberSocialLinkSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = MemberSocialLink
-        fields = ['member', 'social_link',]
+        fields = ['pk', 'id', 'member', 'social_link',]
     
     def create(self, validated_data):
         this_member = self.context["request"].user
@@ -39,7 +39,7 @@ class MemberAnnouncementSerializer(serializers.ModelSerializer):
     member = serializers.StringRelatedField(read_only=True)
     class Meta:
         model = MemberAnnouncement
-        fields = ['member', 'body_text', 'date']
+        fields = ['pk', 'id', 'member', 'body_text', 'date']
     
     def create(self, validated_data):
         this_member = self.context["request"].user
@@ -60,7 +60,7 @@ class MemberSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MemberProfile
-        fields = ['username', 'name_on_blog', 'email', 'artist_bio', 'website', 'image_url', 'hashtags', 'public_profile', 'locations', 'social_links', 'announcements', 'recommendations'
+        fields = ['pk', 'id', 'username', 'name_on_blog', 'email', 'artist_bio', 'website', 'image_url', 'hashtags', 'public_profile', 'locations', 'social_links', 'announcements', 'recommendations'
         , 'artistic_disciplines'
         ]
 

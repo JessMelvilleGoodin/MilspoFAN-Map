@@ -6,12 +6,12 @@ from .models import RecArtisticDiscipline, Recommendation, RecComment, BlogPostI
 class RecArtisticDisciplineSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecArtisticDiscipline
-        fields = ['artistic_discipline']
+        fields = ['pk', 'id', 'artistic_discipline']
 
 class RecCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecComment
-        fields = ['recommendation', 'written_by' , 'body_text', 'date']
+        fields = ['pk', 'id', 'recommendation', 'written_by' , 'body_text', 'date']
 
 
 class RecommendationSerializer(serializers.ModelSerializer):
@@ -20,7 +20,7 @@ class RecommendationSerializer(serializers.ModelSerializer):
     recommended_by = MemberSerializer(read_only=True)
     class Meta:
         model = Recommendation
-        fields = ['name', 'description', 'artistic_disciplines', 'member_notes', 'hashtags', 'location_independent', 'location', 'website', 'recommended_by', 'rec_date', 'comments']
+        fields = ['pk', 'id', 'name', 'description', 'artistic_disciplines', 'member_notes', 'hashtags', 'location_independent', 'location', 'website', 'recommended_by', 'rec_date', 'comments']
         extra_kwargs = {'artistic_disciplines': {'required': False}}
 
     def create(self, validated_data):
@@ -32,5 +32,5 @@ class RecommendationSerializer(serializers.ModelSerializer):
 class BlogPostInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = BlogPostInfo
-        fields = ['artist',  'link', 'title', 'location']
+        fields = ['pk', 'id', 'artist',  'link', 'title', 'location']
 

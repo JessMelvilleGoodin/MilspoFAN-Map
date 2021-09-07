@@ -35,6 +35,13 @@ const SignupPage = () => {
   const placeHolder = (e) => {
     console.log(e.target.value);
   }
+  
+  const handleChangeStandard = (e, x) => {
+    let value = e.target.value
+    console.log("Field: ", x, "VALUE: ", value )
+    x(value)
+    
+  }
 
   const handlePublicProfileCheck = () => {
     setPublicProfile(!publicProfile);
@@ -74,45 +81,81 @@ const SignupPage = () => {
         setSubmitted(x)
           }}>
 
-        <label htmlFor="username-in" >Enter a Username:</label>        
-        <input name="username-in" type="text" onChange={placeHolder} />
+        <h5>
+          <label htmlFor="username-in" >Enter a Username:</label>        
+          <input 
+            name="username-in" 
+            type="text" 
+            onChange={(e) => {
+              handleChangeStandard(e, setUsername)}
+            } />
+        </h5>
+        
 
-        <label htmlFor="password1-in" >Please enter a password:</label>        
-        <input name="password1-in" type="password" onChange={placeHolder} />
-        <input type="submit"/>
-
-
-        <label htmlFor="password2-in" >Please enter a password:</label>        
-        <input name="password2-in" type="password" onChange={placeHolder} />
-
-
-        <label htmlFor="nameOnBlog">Name on Blog:</label>
-        <input name="nameOnBlog-in" type="text" onChange={placeHolder} />
-
-
-        <label htmlFor="email">E-mail Address:</label>
-        <input name="email-in" type="email" onChange={placeHolder} />
-
-
-        <label htmlFor="artistBio">Bio:</label>
-        <input name="artistBio-in" type="text" onChange={placeHolder} />
+        <h5>
+          <label htmlFor="password1-in" >Please enter a password:</label>        
+          <input 
+            name="password1-in" 
+            type="password" 
+            onChange={(e) => {
+                handleChangeStandard(e, setPassword1)}
+              } />
+        </h5>
 
 
-        <label htmlFor="website">Website:</label>
-        <input name="website-in" type="text" onChange={placeHolder} />
+        <h5>
+          <label htmlFor="password2-in" >Please enter a password:</label>        
+          <input name="password2-in" type="password" onChange={(e) => {
+                handleChangeStandard(e, setPassword2)}
+              } />
+        </h5>
 
-        <label htmlFor="image_url">Image URL:</label>
-        <input name="image_url-in" type="text" onChange={placeHolder} />
+        <h5>
+          <label htmlFor="nameOnBlog">Name on Blog:</label>
+          <input name="nameOnBlog-in" type="text" onChange={(e) => {
+                handleChangeStandard(e, setNameOnBlog)}
+              } />
+        </h5>
 
+        <h5>
+          <label htmlFor="email">E-mail Address:</label>
+          <input name="email-in" type="email" onChange={(e) => {
+                handleChangeStandard(e, setEmail)}
+              } />
+        </h5>
 
-        <label htmlFor="hashtags">Hashtags:</label>
-        <input name="hashtags-in" type="text" onChange={placeHolder} />
+        <h5>
+          <label htmlFor="artistBio">Bio:</label>
+          <input name="artistBio-in" type="text" onChange={(e) => {
+                handleChangeStandard(e, setArtistBio)}
+              } />
+        </h5>
 
+        <h5>
+          <label htmlFor="website">Website:</label>
+          <input name="website-in" type="text" onChange={(e) => {
+                handleChangeStandard(e, setWebsite)}
+              } />
+        </h5><h5>
+          <label htmlFor="image_url">Image URL:</label>
+          <input name="image_url-in" type="text" onChange={(e) => {
+                handleChangeStandard(e, setImageUrl)}
+              } />
+        </h5>
+
+        <h5>
+          <label htmlFor="hashtags">Hashtags:</label>
+          <input name="hashtags-in" type="text" onChange={(e) => {
+                handleChangeStandard(e, setHashtags)}
+              } />
+        </h5>
+        
+        
         <label htmlFor="publicProfile">Public Profile? :</label>
         <input 
           type = "checkbox" 
-          name="publicProfile-in" 
-          value="publicProfile"
+          name= "publicProfile-in" 
+          value= "publicProfile"
           checked={publicProfile} 
           onChange={handlePublicProfileCheck} />
           <p>"Check here to allow other logged in members to view your profile"</p>

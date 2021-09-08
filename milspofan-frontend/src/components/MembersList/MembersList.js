@@ -1,5 +1,6 @@
 // import { useState, useEffect } from 'react';
 // import {fetchRecs} from './api/ReccomendationsAPI.js'
+import {Link} from 'react-router-dom'
 
 
 const MembersList = ({ members, handleTitleClick }) => {
@@ -9,7 +10,9 @@ const MembersList = ({ members, handleTitleClick }) => {
       <ul>
         {members.map((member, index) => (
           <li key={`member-${index}`}> 
-            <h5>{member.username}</h5>
+            <h5>{member.username}: {member.name_on_blog}</h5>
+            <Link to={`/members/${member.pk}`}>View {member.username}'s Profile</Link>
+            {/* <button value="View this profile" onClick=''/> */}
             {member.locations.map((loc, index) => {
               return(
               <p key={`member-loc-${index}`}>

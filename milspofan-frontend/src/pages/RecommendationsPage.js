@@ -35,7 +35,7 @@ const RecommendationsPage = ({history}) => {
   }, [])
     
     if (!recs){
-      return <p>Loading...</p>
+      return <p>Please Log In to View Recommendations</p>
     }
     else {
       return (

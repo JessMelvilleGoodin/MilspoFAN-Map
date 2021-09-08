@@ -36,7 +36,7 @@ const MembersPage = ({history}) => {
   }, [])
     
     if (!members){
-      return <p>Loading...</p>
+      return <p>Please Log In To View Members</p>
     }
     else {
       

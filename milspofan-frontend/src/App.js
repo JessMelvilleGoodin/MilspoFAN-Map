@@ -13,9 +13,10 @@ import { Redirect } from "react-router-dom";
 import AppNavLinks from "./components/AppNav/AppNav.js";
 
 import './App.css';
+import MemberDetailPage from './pages/MemberDetailPage.js'
 
 function App() {
-  const [loggedInMember, setLoggedInMember] = useState()
+  const [loggedInMember, setLoggedInMember] = useState(getCookie("memberName"))
   const [token, setToken] = useState()
 
     // OnClick for Login Form Button. Returns <Redirect..> if successful. 
@@ -29,7 +30,6 @@ function App() {
     // tokenFunc returns token OR ERROR or null
     let new_token = await tokenFunc(userData)
     if (new_token){
-
       setCookie("token", new_token.token, 15)
       setCookie("memberName", userData.username, 15)
       if (new_token.token){
@@ -54,7 +54,8 @@ function App() {
   }
 
   let contextValue = {
-    loggedInMember: loggedInMember,  
+    loggedInMember: loggedInMember, 
+    setLoggedInMember: setLoggedInMember, 
     token: token,
     loginOnSubmit: loginOnSubmit,
     signUpSubmit: signUpSubmit,
@@ -72,6 +73,7 @@ function App() {
               <Route exact path="/recs" component={RecommendationsPage} />
               <Route exact path="/login" component={LoginPage} />
               <Route exact path="/logout" component={LogoutPage} />
+              <Route exact path={"/members/:memberPK"} component={MemberDetailPage} />
           </div>
         </UserContext.Provider>
       </BrowserRouter>

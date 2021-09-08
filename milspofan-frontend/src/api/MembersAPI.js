@@ -22,6 +22,21 @@ const fetchMembers = async (token) => {
   }
 };
 
+// Fetch Member by PK
+const getMember = async(token, memberPK, setMember) => {
+  let options = {
+    method: 'GET', 
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Token ${token}`  
+    },
+    }
+  const response = await fetch(`http://127.0.0.1:8000/members-api/members/${memberPK}`, options)
+  const responseBody = await response.json()
+  setMember(responseBody)
+}
+
+
 const tokenFunc = async (userData) => {
   // Here we will make a POST request to the API endpoint get-token
   // The POST request includes userData, which is an object holding username and password from the login form. 
@@ -93,12 +108,17 @@ let deleteCookies = async(e) => {
   e.preventDefault()
   document.cookie = "memberName=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  return true
+  document.cookie = "csrftoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  let cookiesExist = null
+  if (getCookie("memberName") || getCookie("token") || getCookie("csrftoken")){
+    cookiesExist = true
+  }
+  else {cookiesExist = false}
+  console.log("csrftoken", getCookie("csrftoken"))
+  console.log(getCookie("memberName"),  getCookie("token"),  getCookie("csrftoken"), cookiesExist )
+  return cookiesExist
 }
 
-let createMember = async () => {
-  
-}
 
 let signUpSubmit = async (e, signUpInfo) => {
   e.preventDefault()
@@ -133,4 +153,5 @@ export {
   checkCookie,
   deleteCookies,
   signUpSubmit,
+  getMember,
       }

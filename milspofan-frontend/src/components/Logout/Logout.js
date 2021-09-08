@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {getCookie, deleteCookies} from '../../api/MembersAPI'
 import { Redirect } from "react-router-dom";
+import UserContext from "../../context/UserContext";
 
 
 
 const Logout = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loggedIn, setLoggedIn] = useState(true)
+  let context = useContext(UserContext)
 
   
   // let onSubmit = (e) => {
@@ -26,6 +28,7 @@ const Logout = () => {
             let x = await deleteCookies(e)
             console.log(x)
             setSubmitted(x)
+            context.setLoggedInMember("")
           }}>
             <input type="submit" value="yes"/>
           </form>

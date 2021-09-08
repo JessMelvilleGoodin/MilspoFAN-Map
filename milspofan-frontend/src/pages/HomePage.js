@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import RecsList from '../components/RecsList/RecsList.js'
 import MembersList from '../components/MembersList/MembersList.js'
 import fetchRecs from '../api/RecommendationsAPI.js'
-import {fetchMembers, loginFunc} from '../api/MembersAPI.js'
+import {fetchMembers, loginFunc, getCookie} from '../api/MembersAPI.js'
 
 
 const HomePage = ({history}) => {
@@ -11,6 +11,7 @@ const HomePage = ({history}) => {
   const [members, setMembers] = useState();
   
   useEffect( () => {
+  
     const getRecs = async () => {
         let the_recs = await fetchRecs()
         setRecs(the_recs)
@@ -20,14 +21,15 @@ const HomePage = ({history}) => {
       let the_members = await fetchMembers()
       setMembers(the_members)
     }
-
-  getMembers()
-  getRecs()
+    if (getCookie("token")){
+      getMembers()
+      getRecs()
+    }
 
   }, [])
     
   if (!recs || !members){
-    return <p>Loading...</p>
+    return <p>Please Log in</p>
   }
   else {
     return (

@@ -131,3 +131,5 @@ Resources:
   Checkboxes : https://www.freecodecamp.org/news/how-to-work-with-multiple-checkboxes-in-react/
   
   Using reduce to filter an array: https://24ways.org/2019/five-interesting-ways-to-use-array-reduce/
+
+  Set/Get/Check Cookies: https://www.w3schools.com/js/js_cookies.asp (in MembersAPI.js)

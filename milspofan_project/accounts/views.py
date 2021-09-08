@@ -38,14 +38,21 @@ class SignupView(CreateAPIView):
     permission_classes = [AllowAny]
 
     def perform_create(self, serializer):
+        print("PERFORM CREATE STARTS")
         if serializer.is_valid():
             print(serializer.validated_data)
             username = serializer.validated_data["username"]
             password = serializer.validated_data["password"]
             name_on_blog = serializer.validated_data["name_on_blog"]
             email = serializer.validated_data["email"]
-            artist_bio = serializer.validated_data["artist_bio"]
-            artistic_disciplines = serializer.validated_data["artistic_disciplines"]
+            if serializer.validated_data.get("artist_bio"):
+                artist_bio = serializer.validated_data.get("artist_bio")
+            else:
+                artist_bio = None
+            if serializer.validated_data.get("artistic_disciplines"):
+                artistic_disciplines = serializer.validated_data.get("artistic_disciplines")
+            else:
+                artistic_disciplines = []
             if serializer.validated_data.get("website"):
                 website = serializer.validated_data.get("website")
             else:
@@ -71,7 +78,14 @@ class SignupView(CreateAPIView):
             artist_bio = artist_bio, website = website, image_url = image_url, hashtags = hashtags, public_profile = public_profile
             )
 
-            new_user.artistic_disciplines.set(artistic_disciplines)
+            if artistic_disciplines:
+                print("INSIDE IF > ARTISTIC-DISCS", artistic_disciplines)
+                new_user.artistic_disciplines.set(artistic_disciplines)
+            # else:
+            #     new_user.artistic_disciplines.set([1, 2])
+
+            print("END OF SIGN UP VIEW", new_user)
+
 
 class MemberLoginView(LoginView):
     template_name = 'login.html'

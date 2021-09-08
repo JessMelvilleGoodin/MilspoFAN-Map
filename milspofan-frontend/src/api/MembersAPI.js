@@ -34,7 +34,7 @@ const tokenFunc = async (userData) => {
     },
     body: JSON.stringify(userData)}
     
-  try{
+  try{ 
     let response = await fetch('http://127.0.0.1:8000/members-api/get-token', options)
     let data = await response.json()
     console.log(data.token, "loginFunc data.token")
@@ -53,8 +53,84 @@ const tokenFunc = async (userData) => {
   }
 }
 
+// Cookie functions from: https://www.w3schools.com/js/js_cookies.asp
+
+function setCookie(cname, cvalue, exdays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  let expires = "expires="+d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let ca = document.cookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function checkCookie() {
+  let user = getCookie("username");
+  if (user != "") {
+    alert("Welcome again " + user);
+  } else {
+    user = prompt("Please enter your name:", "");
+    if (user != "" && user != null) {
+      setCookie("username", user, 365);
+    }
+  }
+}
+
+let deleteCookies = async(e) => {
+  e.preventDefault()
+  document.cookie = "memberName=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  return true
+}
+
+let createMember = async () => {
+  
+}
+
+let signUpSubmit = async (e, signUpInfo) => {
+  e.preventDefault()
+  
+  const options = {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(signUpInfo)}
+    
+    try{
+      let response = await fetch('http://127.0.0.1:8000/members-api/signup/', options)
+      console.log("SignUpInfo: ", signUpInfo)
+      console.log("RESPONSE.STATUS", response.status)
+      let data = await response.json()
+      console.log("signUpSubmit > Try > data: ", data)
+      return data
+    }
+    catch(error){
+      console.log("Catch: ", error)
+    }
+
+}
+
 
 export {
   fetchMembers, 
-  tokenFunc
+  tokenFunc,
+  setCookie,
+  getCookie,
+  checkCookie,
+  deleteCookies,
+  signUpSubmit,
       }

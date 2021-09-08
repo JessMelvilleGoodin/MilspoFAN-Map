@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useContext, useEffect } from "react";
 import MembersList from '../components/MembersList/MembersList.js'
 // import fetchRecs from '../api/RecommendationsAPI.js'
-import {fetchMembers} from '../api/MembersAPI.js'
+import {fetchMembers, getCookie} from '../api/MembersAPI.js'
 // import { Redirect } from "react-router-dom";
 import UserContext from '../context/UserContext.js'
 
@@ -14,11 +14,21 @@ const MembersPage = ({history}) => {
   useEffect( () => {
     
     const getMembers = async () => {
-      if (userInfo.token){
-        let token = userInfo.token
+      console.log("USING THE COOKIES")
+      let cookieToken = getCookie("token")
+      let cookieMember = getCookie("memberName")
+      if (cookieToken){
+        let token = cookieToken
         let the_members = await fetchMembers(token)
         setMembers(the_members)
       }
+//        Use UserContext to get token and Username inside UserInfo:
+      // WILL NOT PERSIST OUTSIDE OF APP ROUTER- USE COOKIES!
+      // if (userInfo.token){
+      //   let token = userInfo.token
+      //   let the_members = await fetchMembers(token)
+      //   setMembers(the_members)
+      // }
     }
 
   getMembers()

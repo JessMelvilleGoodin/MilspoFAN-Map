@@ -30,11 +30,11 @@ class MemberProfile(AbstractUser):
     name_on_blog = models.CharField(max_length=200, null=False)
     email = models.EmailField(max_length = 254)
     artist_bio = models.TextField(max_length=2000, null=True, blank=True)
-    website = models.URLField(max_length=300, null=True, blank=True)
-    image_url = models.URLField(max_length=300, null=True, blank=True)
+    website = models.CharField(max_length=300, null=True, blank=True)
+    image_url = models.CharField(max_length=300, null=True, blank=True)
     hashtags = models.TextField(max_length=2000, null=True, blank=True)
-    public_profile= models.BooleanField(default=False)
-    artistic_disciplines = models.ManyToManyField(MemberArtisticDiscipline, related_name='members', blank=True)
+    public_profile= models.BooleanField(default=False, null=True)
+    artistic_disciplines = models.ManyToManyField(MemberArtisticDiscipline, related_name='members', blank=True )
     
     # location (related_name of MemberLocation) FIELDS: member,location, year_arrived, year_departed
     # social_links (related_name of MemberSocialLink)FIELDS:  member, social_link

@@ -56,7 +56,7 @@ class MemberSerializer(serializers.ModelSerializer):
 
     recommendations = serializers.StringRelatedField(many=True, read_only=True)
     
-    artistic_disciplines = MemberArtisticDisciplineSerializer(many=True)
+    artistic_disciplines = MemberArtisticDisciplineSerializer(many=True, required=False)
 
     class Meta:
         model = MemberProfile
@@ -65,6 +65,12 @@ class MemberSerializer(serializers.ModelSerializer):
         ]
 
 class SignupSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        print("VALIDATED DATA: ", validated_data)
+        super().create(**validated_data)
+
+    artistic_disciplines = MemberArtisticDisciplineSerializer(many=True, required=False)
+
     class Meta:
         model = MemberProfile
         fields = ["username", "password", "name_on_blog", "email", "artist_bio", "website", "image_url", "hashtags", "public_profile", "artistic_disciplines"]

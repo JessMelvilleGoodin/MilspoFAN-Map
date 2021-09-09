@@ -2,22 +2,22 @@ import React from 'react'
 import { useState, useEffect, useContext } from 'react';
 import RecsList from '../components/RecsList/RecsList.js'
 import fetchRecs from '../api/RecommendationsAPI.js'
-import UserContext from "../context/UserContext"
-import { getCookie } from '../api/MembersAPI.js';
+import { useMemberAuth } from "../context/UserContext.js";
+
 
 const RecommendationsPage = ({history}) => {
   const [recs, setRecs] = useState();
-  const userInfo = useContext(UserContext)
-  // let token = userInfo.token
+  const { currentUserName, currentUserPK, token, getCookie, deleteCookies } = useMemberAuth();
+
 
   useEffect( () => {
     
     const getRecs = async () => {
-      let cookieToken = getCookie("token")
-      let cookieMember = getCookie("memberName")
-      console.log("USING COOKIES: Cookie Token & Name: ", cookieToken, cookieMember)
-      if (cookieToken){
-        let token = cookieToken
+      // let cookieToken = getCookie("token")
+      // let cookieMember = getCookie("memberName")
+      // console.log("USING COOKIES: Cookie Token & Name: ", cookieToken, cookieMember)
+      if (token){
+        // let token = cookieToken
         let the_recs = await fetchRecs(token)
         setRecs(the_recs)
       }

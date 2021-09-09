@@ -1,11 +1,22 @@
+from django.http import response
 from django.shortcuts import render
 from rest_framework.generics import CreateAPIView
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from .models import MemberArtisticDiscipline, MemberProfile, MemberAnnouncement, MemberLocation,MemberSocialLink
 from .serializers import MemberSerializer, MemberLocationSerializer, MemberSocialLinkSerializer, MemberAnnouncementSerializer, SignupSerializer
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
-from django.contrib.auth.views import LoginView    
+from django.contrib.auth.views import LoginView
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
 
+# class CurrentUserView(APIView):
+#     print("ENTERING DJANGO CURRENT USER VIEW")
+#     def get(self, request):
+#         print(request.user)
+#         serializer = MemberSerializer(request.user)
+#         return Response(serializer.data)
 
 class MemberViewSet(viewsets.ModelViewSet):
     queryset = MemberProfile.objects.all()
@@ -49,10 +60,12 @@ class SignupView(CreateAPIView):
                 artist_bio = serializer.validated_data.get("artist_bio")
             else:
                 artist_bio = None
+
             if serializer.validated_data.get("artistic_disciplines"):
                 artistic_disciplines = serializer.validated_data.get("artistic_disciplines")
             else:
                 artistic_disciplines = []
+
             if serializer.validated_data.get("website"):
                 website = serializer.validated_data.get("website")
             else:
@@ -88,7 +101,25 @@ class SignupView(CreateAPIView):
 
 
 class MemberLoginView(LoginView):
+    print("ENTERING DJANGO LOGINVIEW")
+    # Placeholder Django template- Reacte login page renders from Frontend
     template_name = 'login.html'
     permission_classes = [AllowAny]
-    pass
+    
+
     # userdata = request.userdata
+
+class CustomAuthToken(ObtainAuthToken):
+    print('CUSTAUTH TOKEN ENTERED')
+    def post(self, request, *args, **kwargs):
+        print("INSIDE POST")
+        serializer = self.serializer_class(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        print("USER :" , user.pk)
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({
+            'token': token.key,
+            'user_pk': user.pk,
+            # 'user': user
+        })

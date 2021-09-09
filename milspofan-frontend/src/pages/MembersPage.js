@@ -4,21 +4,25 @@ import MembersList from '../components/MembersList/MembersList.js'
 // import fetchRecs from '../api/RecommendationsAPI.js'
 import {fetchMembers, getCookie} from '../api/MembersAPI.js'
 // import { Redirect } from "react-router-dom";
-import UserContext from '../context/UserContext.js'
+// import  { UserContext } from '../context/UserContext.js'
+import { useMemberAuth } from "../context/UserContext.js";
+
 
 
 const MembersPage = ({history}) => {
   const [members, setMembers] = useState();
-  const userInfo = useContext(UserContext)
+  const { currentUserName, currentUserPK, token, getCookie, deleteCookies } = useMemberAuth();
+  // const userInfo = useContext(UserContext)
   
   useEffect( () => {
     
     const getMembers = async () => {
-      console.log("USING THE COOKIES")
-      let cookieToken = getCookie("token")
-      let cookieMember = getCookie("memberName")
-      if (cookieToken){
-        let token = cookieToken
+      console.log("getMembers RUNS")
+      console.log("t,cun, cupk, ", token, currentUserName, currentUserPK)
+      // let cookieToken = getCookie("token")
+      // let cookieMember = getCookie("memberName")
+      if (token){
+        // let token = cookieToken
         let the_members = await fetchMembers(token)
         setMembers(the_members)
       }

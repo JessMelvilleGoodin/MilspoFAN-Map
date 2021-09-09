@@ -1,34 +1,27 @@
 import React, { useContext, useState } from "react";
-import {getCookie, deleteCookies} from '../../api/MembersAPI'
 import { Redirect } from "react-router-dom";
-import UserContext from "../../context/UserContext";
+import { useMemberAuth } from "../../context/UserContext.js";
 
 
 
 const Logout = () => {
+  const { currentUserName, currentUserPK, token, getCookie, deleteCookies, clearUserState } = useMemberAuth();
+
   const [submitted, setSubmitted] = useState(false);
   const [loggedIn, setLoggedIn] = useState(true)
-  let context = useContext(UserContext)
-
-  
-  // let onSubmit = (e) => {
-  //   e.preventDefault()
-  //   console.log("LOGGING OUT- COOKIE: ", document.cookie.csrftoken)
-  //   // cookies.remove("user")
-  // };
-
 
   if (submitted === false){
-    if (getCookie("token")){
+    if (token){
       return (
         <div>
-          <h3>{getCookie("token")}</h3>
+          <h3>{token}</h3>
           <h1>Do you want to Log Out?</h1>
           <form method="POST" onSubmit={async (e) => {
             let x = await deleteCookies(e)
             console.log(x)
+            clearUserState()
+            // no cookies = false
             setSubmitted(x)
-            context.setLoggedInMember("")
           }}>
             <input type="submit" value="yes"/>
           </form>
@@ -36,7 +29,6 @@ const Logout = () => {
       );
     }
     else {
-      console.log("LOGGED IN - COOKIE:", document.cookie.csrftoken)
       return  <h2>You are already logged out.</h2>
     }
     }

@@ -1,17 +1,28 @@
 import React from "react";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { useMemberAuth } from "../context/UserContext.js";
-import { signUpSubmit } from "../api/MembersAPI.js";
+import { updateProfile } from "../api/MembersAPI.js";
 import { artDiscList } from "../components/ArtDiscs/ArtDiscs.js";
 import { UsernameField, PassOneField, PassTwoField, NameOnBlogField, EmailField, ArtistBioField, WebsiteField, ImageURLField, HashtagsField, PublicProfileChoice, ArtDiscBoxes} from "../components/SignInFormFields/SignInFormFields.js"
+import { getMember } from "../api/MembersAPI";
+import MemberDetailPage from "./MemberDetailPage.js";
 
-const SignupPage = () => {
 
-  let [username, setUsername] = useState();
+const EditProfilePage = () => {
+  const [member, setMember] = useState('')
+  
+  const { currentUserName, currentUserPK, token, getCookie, deleteCookies } = useMemberAuth();
+
+  useEffect( () => {
+    getMember(token, currentUserPK, setMember)
+  }, [])
+
+
+  let [username, setUsername] = useState(member.username);
   let [password1, setPassword1] = useState();
   const [password2, setPassword2] = useState();
-  const [nameOnBlog, setNameOnBlog ] = useState();
+  const [nameOnBlog, setNameOnBlog ] = useState(member.name_on_blog);
   const [email, setEmail ] = useState();
   const [artistBio, setArtistBio ] = useState();
   const [website, setWebsite ] = useState();
@@ -25,7 +36,6 @@ const SignupPage = () => {
   const [submitted, setSubmitted] = useState(false);
   const [regErrors, setRegErrors] = useState(false)
   
-  const { currentUserName, currentUserPK, token, getCookie, deleteCookies } = useMemberAuth();
   // const memberContext = useContext(UserContext)
 
   // Form Change Handlers
@@ -36,11 +46,11 @@ const SignupPage = () => {
     
   }
 
-  const handleClickSignup = async (e) => {
+  const handleClickUpdate = async (e) => {
 
-//  ArtDiscs doesn't work "expected dict but got a string": 
-// Problems with Error list as in SignupPage
-    let signUpInfo = {
+    //  ArtDiscs doesn't work "expected dict but got a string": 
+    // Problems with Error list as in SignupPage
+    let updatedInfo = {
                 "username" : username ,
                 "password" : password1 ,
                 "password2" : password2 ,
@@ -53,22 +63,11 @@ const SignupPage = () => {
                 "public_profile" : publicProfile ,
                 "artistic_disciplines" : artisticDisciplines ,
               }
-
-    // This works: 
-    // let signUpInfo = {
-    //   "username" : "ART111",
-    //   "password" : ";lkjasdf",
-    //   "name_on_blog":  "Post Man COPY 111",
-    //   "email":  "post@man.com",
-    //   "artist_bio": "jklljkjkl now" 
-    //   }
-
-      let x = await signUpSubmit(e, signUpInfo, setSubmitted)
-      console.log("SignUp Response: ", x)
+// LOOK HERE TOMORROW!!
+// this error section is screwed up in Sign up page, btw
+      let x = await updateProfile(e, updatedInfo, setSubmitted)
+      console.log("updateProfile Response: ", x)
       console.log(x.status)
-      // if (x.status == 201 ){
-      //   setSubmitted(true)
-      // }
       if (submitted === false) {
         let errorList = Object.keys(x).map((key) => <p key={`errors-${key}`}>
           {[key," : ", x[key]]}
@@ -85,11 +84,9 @@ const SignupPage = () => {
           <h6>{regErrors}</h6>
 
 
-          <form method="POST" onSubmit={handleClickSignup}>
-            <h5>
-            <UsernameField 
-            setUsername={setUsername} handleChangeStandard={handleChangeStandard}
-            />
+          <form method="POST" onSubmit={handleClickUpdate}>
+            <h5> 
+              {member.username}
             </h5>
 
             <h5>
@@ -107,42 +104,55 @@ const SignupPage = () => {
     
             <h5>
             <NameOnBlogField 
-            setNameOnBlog={setNameOnBlog} handleChangeStandard={handleChangeStandard}
+            setNameOnBlog={setNameOnBlog} 
+            value = {member.name_on_blog}
+            handleChangeStandard={handleChangeStandard}
             />
             </h5>
     
             <h5>
             <EmailField 
-            setEmail={setEmail} handleChangeStandard={handleChangeStandard}
+            value = {member.email}
+            setEmail={setEmail} 
+            handleChangeStandard={handleChangeStandard}
             />
             </h5>
     
             <h5>
             <ArtistBioField 
-            setArtistBio={setArtistBio} handleChangeStandard={handleChangeStandard}
+            setArtistBio={setArtistBio}
+            value = {member.artist_bio} 
+            handleChangeStandard={handleChangeStandard}
             />
             </h5>
     
             <h5>
             <WebsiteField 
-            setWebsite={setWebsite} handleChangeStandard={handleChangeStandard}
+            setWebsite={setWebsite} 
+            value = {member.website}
+            handleChangeStandard={handleChangeStandard}
             />
             </h5>
             
             <h5>
               <ImageURLField 
-              setImageUrl={setImageUrl} handleChangeStandard={handleChangeStandard}
+              setImageUrl={setImageUrl} 
+              value = {member.image_url}
+              handleChangeStandard={handleChangeStandard}
               />
             </h5>
     
             <h5>
               <HashtagsField 
-              setHashtags={setHashtags} handleChangeStandard={handleChangeStandard}
+              setHashtags={setHashtags} 
+              value = {member.hashtags}
+              handleChangeStandard={handleChangeStandard}
             />
             </h5>
             
             <PublicProfileChoice
               publicProfile = {publicProfile}
+              value = {member.public_profile}
               setPublicProfile = {setPublicProfile}
             />
             
@@ -153,7 +163,7 @@ const SignupPage = () => {
               setArtisticDisciplines = {setArtisticDisciplines}
             />
 
-            <input type="submit"/>
+            <input type="submit" value="Save Changes"/>
 
           </form>
         </div>
@@ -161,9 +171,9 @@ const SignupPage = () => {
     }
 
     else{
-      // change this to Log in the user that just was created
-      return <Redirect to="/login" />  }
+      // Working
+      return <Redirect to={`/members/${currentUserPK}`} />  }
 
 }
-  
-  export default SignupPage;
+
+export default EditProfilePage

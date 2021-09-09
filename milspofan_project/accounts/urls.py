@@ -1,6 +1,6 @@
 from rest_framework_nested import routers
 from rest_framework.authtoken.views import obtain_auth_token
-from .views import MemberViewSet, MemberLocationViewSet, MemberSocialLinkViewSet, MemberAnnouncementViewSet, SignupView, MemberLoginView
+from .views import MemberViewSet, MemberLocationViewSet, MemberSocialLinkViewSet, MemberAnnouncementViewSet, SignupView, MemberLoginView, CustomAuthToken
 from django.urls import path, include
 from rest_framework.authtoken import views
 
@@ -34,8 +34,10 @@ app_name = 'accounts'
 urlpatterns = [ 
     path('', include(router.urls)),
     path('', include(member_info_router.urls)),
-    path('get-token', obtain_auth_token),
+    path('get-token', CustomAuthToken.as_view()),
     path('signup/', SignupView.as_view()),
+    path('login/', MemberLoginView.as_view()),
+    # path('current-user/', CurrentUserView.as_view())
 
     # path('auth/', include('django.contrib.auth.urls')),
             # INCLUDED:

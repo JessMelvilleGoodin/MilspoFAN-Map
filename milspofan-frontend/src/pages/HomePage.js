@@ -3,22 +3,25 @@ import { useState, useEffect } from 'react';
 import RecsList from '../components/RecsList/RecsList.js'
 import MembersList from '../components/MembersList/MembersList.js'
 import fetchRecs from '../api/RecommendationsAPI.js'
-import {fetchMembers, loginFunc, getCookie} from '../api/MembersAPI.js'
+import { fetchMembers } from '../api/MembersAPI.js'
+import { useMemberAuth } from "../context/UserContext.js";
 
 
 const HomePage = ({history}) => {
+  const { currentUserName, currentUserPK, token, getCookie, deleteCookies } = useMemberAuth();
+
   const [recs, setRecs] = useState();
   const [members, setMembers] = useState();
   
   useEffect( () => {
   
     const getRecs = async () => {
-        let the_recs = await fetchRecs()
+        let the_recs = await fetchRecs(token)
         setRecs(the_recs)
       }
     
     const getMembers = async () => {
-      let the_members = await fetchMembers()
+      let the_members = await fetchMembers(token)
       setMembers(the_members)
     }
     if (getCookie("token")){

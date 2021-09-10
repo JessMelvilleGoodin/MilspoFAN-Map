@@ -1,6 +1,7 @@
+from django.views.generic.edit import UpdateView
 from rest_framework_nested import routers
 from rest_framework.authtoken.views import obtain_auth_token
-from .views import MemberViewSet, MemberLocationViewSet, MemberSocialLinkViewSet, MemberAnnouncementViewSet, SignupView, MemberLoginView, CustomAuthToken
+from .views import MemberViewSet, MemberLocationViewSet, MemberSocialLinkViewSet, MemberAnnouncementViewSet, SignupView, MemberLoginView, CustomAuthToken, ProfileUpdateView
 from django.urls import path, include
 from rest_framework.authtoken import views
 
@@ -37,7 +38,9 @@ urlpatterns = [
     path('get-token', CustomAuthToken.as_view()),
     path('signup/', SignupView.as_view()),
     path('login/', MemberLoginView.as_view()),
-    # path('current-user/', CurrentUserView.as_view())
+    path('<int:pk>/update', ProfileUpdateView.as_view()),
+    # path('<int:pk>/destroy', MemberViewSet.as_view({'get' : 'destroy'})),
+
 
     # path('auth/', include('django.contrib.auth.urls')),
             # INCLUDED:

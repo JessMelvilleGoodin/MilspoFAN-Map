@@ -20,11 +20,14 @@ const SignupPage = () => {
   const [publicProfile, setPublicProfile ] = useState(false);
   const [artisticDisciplines, setArtisticDisciplines ] = useState([]);
 
-  const [artDiscCheckboxes, setArtDiscCheckboxes] = useState(
-    new Array(artDiscList.length).fill(false));
+  const [artDiscCheckboxes, setArtDiscCheckboxes] = useState([
+    new Array(artDiscList.length).fill(false)]);
+
   const [submitted, setSubmitted] = useState(false);
   const [regErrors, setRegErrors] = useState(false)
   
+  console.log("SUP.ADCB: ", typeof artDiscCheckboxes)
+
   const { currentUserName, currentUserPK, token, getCookie, deleteCookies } = useMemberAuth();
   // const memberContext = useContext(UserContext)
 
@@ -54,28 +57,24 @@ const SignupPage = () => {
                 "artistic_disciplines" : artisticDisciplines ,
               }
 
-    // This works: 
-    // let signUpInfo = {
-    //   "username" : "ART111",
-    //   "password" : ";lkjasdf",
-    //   "name_on_blog":  "Post Man COPY 111",
-    //   "email":  "post@man.com",
-    //   "artist_bio": "jklljkjkl now" 
-    //   }
 
       let x = await signUpSubmit(e, signUpInfo, setSubmitted)
       console.log("SignUp Response: ", x)
       console.log(x.status)
-      // if (x.status == 201 ){
-      //   setSubmitted(true)
-      // }
-      if (submitted === false) {
-        let errorList = Object.keys(x).map((key) => <p key={`errors-${key}`}>
-          {[key," : ", x[key]]}
+      if (x.status === 201 ){
+        setSubmitted(true)
+      }
+      else {
+        let xjson = await x.json()
+        let errorList = Object.keys(xjson).map((key) => <p key={`errors-${key}`}>
+          {[key," : ", xjson[key]]}
         </p>)
         console.log("ELSE ERRORLIST = ", errorList)
         setRegErrors(errorList)
+
       }
+      // if (submitted === false) {
+      // }
     }
 
 

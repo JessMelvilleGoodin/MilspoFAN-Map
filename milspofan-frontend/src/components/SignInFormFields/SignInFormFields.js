@@ -58,7 +58,7 @@ const NameOnBlogField = (props) =>{
               <input 
               name="nameOnBlog-in" 
               type="text"
-              value={props.value} 
+              defaultValue={props.value} 
               onChange={(e) => {
                     props.handleChangeStandard(e, props.setNameOnBlog)}
                   } />
@@ -73,7 +73,7 @@ const EmailField = (props) => {
               <input 
               name="email-in" 
               type="email" 
-              value={props.value} 
+              defaultValue={props.value} 
               onChange={(e) => {
                     props.handleChangeStandard(e, props.setEmail)}
                   } />
@@ -88,7 +88,7 @@ const ArtistBioField = (props) => {
       <input 
       name="artistBio-in" 
       type="text" 
-      value={props.value}
+      defaultValue={props.value}
       onChange={(e) => {
                     props.handleChangeStandard(e, props.setArtistBio)}
                   } 
@@ -104,7 +104,7 @@ const WebsiteField = (props) => {
               <input 
               name="website-in" 
               type="text"
-              value={props.value} 
+              defaultValue={props.value} 
               onChange={(e) => {
                     props.handleChangeStandard(e, props.setWebsite)}
                   } />
@@ -119,7 +119,7 @@ const ImageURLField = (props) => {
               <input 
               name="image_url-in" 
               type="text" 
-              value={props.value}
+              defaultValue={props.value}
               onChange={(e) => {
                     props.handleChangeStandard(e, props.setImageUrl)}
                   } />
@@ -134,7 +134,7 @@ const HashtagsField = (props) => {
               <input 
               name="hashtags-in" 
               type="text" 
-              value={props.value}
+              defaultValue={props.value}
               onChange={(e) => {
                     props.handleChangeStandard(e, props.setHashtags)}
                   } />
@@ -153,7 +153,7 @@ const PublicProfileChoice = (props) => {
         // value= "publicProfile"
         // value= {false}
         checked={props.publicProfile} 
-        value={props.value}
+        defaultValue={props.value}
         onChange={ (e) =>{
           props.setPublicProfile(!props.publicProfile)
         }
@@ -171,10 +171,12 @@ const PublicProfileChoice = (props) => {
 }
 
 const handleArtDiscChecks = (position, artDiscCheckboxes, setArtDiscCheckboxes, artDiscList, setArtisticDisciplines) => {
+  console.log(typeof artDiscCheckboxes)
   console.log("ArtDisc", position)
   const updatedCheckedState = artDiscCheckboxes.map((item, index) => 
   index === position ? !item :item
   )
+  
   
   setArtDiscCheckboxes(updatedCheckedState);
   
@@ -191,6 +193,7 @@ const handleArtDiscChecks = (position, artDiscCheckboxes, setArtDiscCheckboxes, 
 
 
 const ArtDiscBoxes = (props) => {
+  console.log("PROPR.ADCB: ", typeof props.artDiscCheckboxes)
   return (
     <div>
       <ul className = "artDiscList">
@@ -198,7 +201,7 @@ const ArtDiscBoxes = (props) => {
           return(
             <li key = {`artDisc-${index}`}>
 
-              <label htmlFor="`custom-checkbox-${index}`">{artDisc}</label>
+              <label htmlFor={`custom-checkbox-${index}`}>{artDisc}</label>
               <input 
                 type="checkbox"
                 id= {`custom-checkbox-${index}`}

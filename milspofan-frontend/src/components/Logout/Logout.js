@@ -1,14 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { useMemberAuth } from "../../context/UserContext.js";
 
 
 
 const Logout = () => {
-  const { currentUserName, currentUserPK, token, getCookie, deleteCookies, clearUserState } = useMemberAuth();
+  const { token, deleteCookies, clearUserState } = useMemberAuth();
 
   const [submitted, setSubmitted] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(true)
 
   if (submitted === false){
     if (token){

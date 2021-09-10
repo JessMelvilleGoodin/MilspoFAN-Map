@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import {useParams} from 'react-router-dom'
 import { getMember } from "../api/MembersAPI";
 import { useMemberAuth } from "../context/UserContext.js";
+import {Link} from 'react-router-dom';
 
 const MemberDetailPage = () => {
   const { currentUserName, currentUserPK, token, getCookie, deleteCookies } = useMemberAuth();
@@ -31,7 +32,9 @@ const MemberDetailPage = () => {
   }
   const EditProfileButton = () => {
     if (ownProfile == true) {
-      return <button onClick={editProfButtonHandler}> Edit Your Profile</button> 
+      return <button >
+      <Link to={'/editProfile'}>Edit Your Profile</Link>
+      </button> 
     }
     else {return null}
   }
@@ -46,7 +49,11 @@ const MemberDetailPage = () => {
           <h2>{member.username}</h2>
           <h2>Name on Blog: {member.name_on_blog}</h2>
           <EditProfileButton/>
-          <h3>Bio: {member.bio}</h3>
+          <h3>Email: {member.email}</h3>
+          <h3>Bio: {member.artist_bio}</h3>
+          <h3>Website: {member.website}</h3>
+          <h3>Image: {member.image_url}</h3>
+          <h3>Tags: {member.hashtags}</h3>
           <EditLocationsButton/>
           <h3>Location History:  {member.locations.map((loc, index) => {
               return(

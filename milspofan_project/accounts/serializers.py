@@ -22,6 +22,8 @@ class MemberLocationSerializer(serializers.ModelSerializer):
         this_member = self.context["request"].user
         location = MemberLocation.objects.create(**validated_data, member=this_member)
         return location
+    
+    
 
 class MemberSocialLinkSerializer(serializers.ModelSerializer):
     member = serializers.StringRelatedField(read_only=True)
@@ -56,7 +58,14 @@ class MemberSerializer(serializers.ModelSerializer):
 
     recommendations = serializers.StringRelatedField(many=True, read_only=True)
     
-    artistic_disciplines = MemberArtisticDisciplineSerializer(many=True, required=False)
+    artistic_disciplines = MemberArtisticDisciplineSerializer(many=True, required=False
+    , read_only = True
+    )
+    # def update(self, instance, validated_data):
+    #     this_member = self.context["request"].user
+    #     instance.artistic_disciplines = MemberArtisticDiscipline.objects.create(**validated_data, member=this_member)
+    #     return artistic_discipline
+
 
     class Meta:
         model = MemberProfile

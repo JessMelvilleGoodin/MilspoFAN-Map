@@ -1,8 +1,21 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
-
+import {Link} from 'react-router-dom';
+import { useMemberAuth } from "../../context/UserContext.js";
 
 const AppNavLinks = () => {
+  const { token } = useMemberAuth();
+
+  let EditProfileLink = () => {
+    if (token){
+      return(
+        <Link to={`/editProfile`}>Edit Your Profile</Link>
+      )
+    }
+    else {
+      return null
+    }
+  }
+
   return (
     <div>
       <Link to={`/`} > Home </Link>
@@ -11,6 +24,7 @@ const AppNavLinks = () => {
       <Link to={`/signup`} > Register </Link>
       <Link to={`/login`} > Login </Link>
       <Link to={`/logout`} > Logout </Link>
+      <EditProfileLink />
     </div>
   )
 }

@@ -1,6 +1,5 @@
 import React from "react";
-import { useState, useContext } from "react";
-import {tokenFunc} from '../../api/MembersAPI'
+import { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { useMemberAuth } from "../../context/UserContext.js";
 
@@ -10,9 +9,9 @@ const Login = () => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [submitted, setSubmitted] = useState(false);
-  const [userLoggedIn, setUserLoggedIn] =  useState();
 
-  const { currentUserName, currentUserPK, token, getCookie, deleteCookies, loginOnSubmit } = useMemberAuth();
+
+  const { loginOnSubmit } = useMemberAuth();
 
   let changeUserHandler = e => {
     // fix this

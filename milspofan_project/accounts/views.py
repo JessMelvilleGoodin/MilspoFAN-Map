@@ -1,6 +1,7 @@
 from django.http import response
 from django.shortcuts import render
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView
+from rest_framework.serializers import Serializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import MemberArtisticDiscipline, MemberProfile, MemberAnnouncement, MemberLocation,MemberSocialLink
@@ -21,6 +22,9 @@ from rest_framework.authtoken.models import Token
 class MemberViewSet(viewsets.ModelViewSet):
     queryset = MemberProfile.objects.all()
     serializer_class = MemberSerializer
+    
+    # def destroy(self, request, pk=None):
+    #     print("Your're tryign to delete me!")
 
 class MemberLocationViewSet(viewsets.ModelViewSet):
     queryset = MemberLocation.objects.all()
@@ -106,8 +110,23 @@ class MemberLoginView(LoginView):
     template_name = 'login.html'
     permission_classes = [AllowAny]
     
+# ---------------HERE 
+class ProfileUpdateView(UpdateAPIView):
+    queryset = MemberProfile.objects.all()
+    serializer_class = MemberSerializer
 
-    # userdata = request.userdata
+    print("update the profile")
+    # def get(self, request, *args, **kwargs):
+    #     return Response(
+    #         {
+    #             'testmessage': "GET REQUEST TO UPDATE VIEW RECEIVED",
+    #             'member.pk' : self.kwargs['member_pk'],
+    #             # 'token': token.key,
+    #             # 'user_pk': user.pk,
+    #             # # 'user': user
+    #         }
+    #         )
+    # queryset = MemberProfile.objects.filter(pk=member_id)
 
 class CustomAuthToken(ObtainAuthToken):
     print('CUSTAUTH TOKEN ENTERED')

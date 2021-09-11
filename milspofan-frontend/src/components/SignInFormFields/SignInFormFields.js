@@ -101,13 +101,14 @@ const WebsiteField = (props) => {
   return (
     <div>
       <label htmlFor="website">Website:</label>
-              <input 
-              name="website-in" 
-              type="text"
-              defaultValue={props.value} 
-              onChange={(e) => {
-                    props.handleChangeStandard(e, props.setWebsite)}
-                  } />
+      <h5>Website URL must include "https://www."</h5>
+      <input 
+        name="website-in" 
+        type="text"
+        defaultValue={props.value} 
+        onChange={(e) => {
+              props.handleChangeStandard(e, props.setWebsite)}
+            } />
     </div>
   )
 }
@@ -180,20 +181,22 @@ const handleArtDiscChecks = (position, artDiscCheckboxes, setArtDiscCheckboxes, 
   
   setArtDiscCheckboxes(updatedCheckedState);
   
+  // creates an array of strings - names of art.disc's
   const createArtDiscList = updatedCheckedState.reduce(
     function (newArr, thisBooleanValue, index){
       if (thisBooleanValue === true){
         newArr.push(artDiscList[index])
       }
+      console.log("INSIDE createArtDiscList: ", newArr)
       return newArr;
     }, []);
 
   setArtisticDisciplines(createArtDiscList)
 }
 
-
+// Array of boolean values
 const ArtDiscBoxes = (props) => {
-  console.log("PROPR.ADCB: ", typeof props.artDiscCheckboxes)
+  console.log("PROPR.ADB: ", props.artDiscCheckboxes)
   return (
     <div>
       <ul className = "artDiscList">

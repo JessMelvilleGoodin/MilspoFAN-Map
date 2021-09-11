@@ -8,7 +8,29 @@ const MemberDetailPage = () => {
   const { currentUserName, currentUserPK, token, getCookie, deleteCookies } = useMemberAuth();
   const {memberPK} = useParams()
   const [member, setMember] = useState('')
+  let artDiscStrList = ""
+  if (member.artistic_disciplines) {
+    console.log("Str List: ", member.artistic_disciplines.join(', '))
+    artDiscStrList = member.artistic_disciplines.join(', ')
+  }
 
+  let ArtisticDisciplineList = () =>{
+    if (member.artistic_disciplines.length > 1){
+      return(
+        <div>
+          <h3>Artistic Disciplines: {artDiscStrList}</h3>
+        </div>
+      )
+    }
+    else if (member.artistic_disciplines.length === 1){
+      return(
+        <div>
+          <h3>Artistic Discipline: {artDiscStrList}</h3>
+        </div>
+      )
+    }
+    else { return null}
+  }
   
   let ownProfile = (member.username === currentUserName)
 
@@ -16,20 +38,22 @@ const MemberDetailPage = () => {
     getMember(token, memberPK, setMember)
   }, [])
 
-  const locationButtonHandler = () =>{
-    console.log("LocationEdit Button Click")
-  }
+  // const locationButtonHandler = () =>{
+  //   console.log("LocationEdit Button Click")
+  // }
 
   const editProfButtonHandler = () =>{
     console.log("Edit Profile Button Click")
   }
+  
+  // <EditLocationsButton/>
+  // const EditLocationsButton = () => {
+  //   if (ownProfile == true) {
+  //     return <button onClick={locationButtonHandler}> Add or Edit Your Locations</button> 
+  //   }
+  //   else {return null}
+  // }
 
-  const EditLocationsButton = () => {
-    if (ownProfile == true) {
-      return <button onClick={locationButtonHandler}> Add or Edit Your Locations</button> 
-    }
-    else {return null}
-  }
   const EditProfileButton = () => {
     if (ownProfile == true) {
       return <button >
@@ -50,11 +74,11 @@ const MemberDetailPage = () => {
           <h2>Name on Blog: {member.name_on_blog}</h2>
           <EditProfileButton/>
           <h3>Email: {member.email}</h3>
+          <ArtisticDisciplineList/>
           <h3>Bio: {member.artist_bio}</h3>
-          <h3>Website: {member.website}</h3>
+          <h3>Website: <a href={`${member.website}`}>{member.website}</a></h3>
           <h3>Image: {member.image_url}</h3>
           <h3>Tags: {member.hashtags}</h3>
-          <EditLocationsButton/>
           <h3>Location History:  {member.locations.map((loc, index) => {
               return(
               <p key={`member-loc-${index}`}>

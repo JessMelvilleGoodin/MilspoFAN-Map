@@ -2,11 +2,11 @@ from milspofan_app.models import Recommendation
 from rest_framework import serializers
 from .models import MemberProfile, MemberLocation, MemberSocialLink, MemberAnnouncement, MemberArtisticDiscipline
 
-
-class MemberArtisticDisciplineSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MemberArtisticDiscipline
-        fields = ['pk', 'id','artistic_discipline']
+# **--
+# class MemberArtisticDisciplineSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = MemberArtisticDiscipline
+#         fields = ['pk', 'id','artistic_discipline']
     
 
 class MemberLocationSerializer(serializers.ModelSerializer):
@@ -58,9 +58,13 @@ class MemberSerializer(serializers.ModelSerializer):
 
     recommendations = serializers.StringRelatedField(many=True, read_only=True)
     
-    artistic_disciplines = MemberArtisticDisciplineSerializer(many=True, required=False
-    , read_only = True
-    )
+    \
+    # **--
+    # artistic_disciplines = MemberArtisticDisciplineSerializer(many=True, required=False
+    # , read_only = True
+    # )
+
+    
     # def update(self, instance, validated_data):
     #     this_member = self.context["request"].user
     #     instance.artistic_disciplines = MemberArtisticDiscipline.objects.create(**validated_data, member=this_member)
@@ -77,8 +81,9 @@ class SignupSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         print("VALIDATED DATA: ", validated_data)
         super().create(**validated_data)
-
-    artistic_disciplines = MemberArtisticDisciplineSerializer(many=True, required=False)
+    
+    # **--
+    # artistic_disciplines = MemberArtisticDisciplineSerializer(many=True, required=False)
 
     class Meta:
         model = MemberProfile

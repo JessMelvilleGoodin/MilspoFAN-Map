@@ -58,7 +58,9 @@ const UserProvider = ( {children }) => {
 
   // loginOnSubmit calls for a token, sets userInfo in Cookies
   const loginOnSubmit = async (e, username, password) => {
-    e.preventDefault()
+    if (e) {
+      e.preventDefault()
+    }
     let userData = {
       username: username,
       password: password

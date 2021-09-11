@@ -20,7 +20,19 @@ const EditProfilePage = () => {
     getMemberReqs(token, currentUserPK, setMember, setEmail, setNameOnBlog)
   }, [])
 
-  
+
+    const locationButtonHandler = () =>{
+    console.log("LocationEdit Button Click")
+  }
+
+
+  const EditLocationsButton = () => {
+  //   if (ownProfile == true) {
+      return <button onClick={locationButtonHandler}> Add or Edit Your Locations</button> 
+  //   }
+  //   else {return null}
+  }
+
   
   let [username, setUsername] = useState(currentUserName);
   // let [password1, setPassword1] = useState(member.password);
@@ -34,6 +46,7 @@ const EditProfilePage = () => {
   const [publicProfile, setPublicProfile ] = useState(false);
   const [artisticDisciplines, setArtisticDisciplines ] = useState([]);
   
+  // array of booleans
   const [artDiscCheckboxes, setArtDiscCheckboxes] = useState(
     new Array(artDiscList.length).fill(false));
   const [submitted, setSubmitted] = useState(false);
@@ -63,19 +76,35 @@ const EditProfilePage = () => {
                 "artistic_disciplines" : artisticDisciplines ,
               }
 
-    console.log("Updated INFO:", updatedInfo)
 // this error section is screwed up in Sign up page, btw
-    let x = await updateProfile(e, token, currentUserPK, updatedInfo, setSubmitted)
+    let x = await updateProfile(e, token, currentUserPK, updatedInfo)
     console.log("updateProfile Response: ", x, "TOKEN: ", token)
     console.log(x.status)
-    if (submitted === false) {
-      console.log("Submit = false so Errors go here. ")
-      // let errorList = Object.keys(x).map((key) => <p key={`errors-${key}`}>
-      //   {[key," : ", x[key]]}
-      // </p>)
-      // console.log("ELSE ERRORLIST = ", errorList)
-      // setRegErrors(errorList)
-    }
+    if ( x && x.status === 200 ){
+        let xjson = await x.json()
+        setSubmitted(true)
+      }
+      else if (x) {
+        let xjson = await x.json()
+        let errorList = Object.keys(xjson).map((key) => <p key={`errors-${key}`}>
+          {[key," : ", xjson[key]]}
+        </p>)
+        console.log("ELSE ERRORLIST = ", errorList)
+        setRegErrors(errorList)
+
+      }
+      
+      else {
+        console.log("ELSE NO X")
+      }
+    // if (submitted === false) {
+    //   // console.log("Submit = false so Errors go here. ")
+    //   // let errorList = Object.keys(x).map((key) => <p key={`errors-${key}`}>
+    //   //   {[key," : ", x[key]]}
+    //   // </p>)
+    //   // console.log("ELSE ERRORLIST = ", errorList)
+    //   // setRegErrors(errorList)
+    // }
   }
 
     if (!submitted){
@@ -152,7 +181,8 @@ const EditProfilePage = () => {
               setArtDiscCheckboxes = {setArtDiscCheckboxes}
               setArtisticDisciplines = {setArtisticDisciplines}
             />
-
+            <EditLocationsButton/>
+            <br/>
             <input type="submit" value="Save Changes"/>
 
           </form>

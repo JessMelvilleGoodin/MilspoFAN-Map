@@ -28,7 +28,7 @@ const SignupPage = () => {
   
   console.log("SUP.ADCB: ", typeof artDiscCheckboxes)
 
-  const { currentUserName, currentUserPK, token, getCookie, deleteCookies } = useMemberAuth();
+  const { currentUserName, currentUserPK, token, getCookie, deleteCookies, loginOnSubmit } = useMemberAuth();
   // const memberContext = useContext(UserContext)
 
   // Form Change Handlers
@@ -58,13 +58,19 @@ const SignupPage = () => {
               }
 
 
-      let x = await signUpSubmit(e, signUpInfo, setSubmitted)
+      let x = await signUpSubmit(e, signUpInfo)
       console.log("SignUp Response: ", x)
-      console.log(x.status)
-      if (x.status === 201 ){
+
+      if ( x && x.status === 201 ){
+        let xjson = await x.json()
+        console.log("signupinfo UN & PW: ", signUpInfo.username, signUpInfo.password)
+        // let new_token = await tokenFunc(userData)
+        let username = signUpInfo.username
+        let password = signUpInfo.password
         setSubmitted(true)
+        loginOnSubmit(false, username, password)
       }
-      else {
+      else if (x) {
         let xjson = await x.json()
         let errorList = Object.keys(xjson).map((key) => <p key={`errors-${key}`}>
           {[key," : ", xjson[key]]}
@@ -72,6 +78,10 @@ const SignupPage = () => {
         console.log("ELSE ERRORLIST = ", errorList)
         setRegErrors(errorList)
 
+      }
+      
+      else {
+        console.log("ELSE NO X")
       }
       // if (submitted === false) {
       // }
@@ -161,7 +171,7 @@ const SignupPage = () => {
 
     else{
       // change this to Log in the user that just was created
-      return <Redirect to="/login" />  }
+      return <Redirect to="/signupSuccess" />  }
 
 }
   

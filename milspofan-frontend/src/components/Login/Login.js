@@ -36,7 +36,7 @@ const Login = () => {
               <label htmlFor="usernameinput" >Please enter your username:</label>        
               <input name="usernameinput" type="text" onChange={changeUserHandler} />
               <br/>
-              <label htmlFor="pw-input" >Please enter your passwprd:</label>        
+              <label htmlFor="pw-input" >Please enter your password:</label>        
               <input name="pw-input" type="password" onChange={changePWHandler} />
               <input type="submit"/>
             </form>

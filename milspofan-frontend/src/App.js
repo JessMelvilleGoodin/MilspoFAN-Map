@@ -8,8 +8,10 @@ import DeleteMemberPage from "./pages/DeleteMemberPage.js"
 import LoginPage from "./pages/LoginPage.js";
 import LogoutPage from "./pages/LogoutPage.js";
 import MemberDetailPage from './pages/MemberDetailPage.js'
+import SignupSuccessPage from './pages/SignupSuccessPage.js';
 import AppNavLinks from "./components/AppNav/AppNav.js";
 import { UserProvider } from './context/UserContext.js';
+
 // import UserContext from './context/UserContext.js'
 // import {tokenFunc, setCookie, getCookie, checkCookie, signUpSubmit} from './api/MembersAPI'
 
@@ -33,6 +35,7 @@ function App() {
               {/* <Route exact path={"/members/:memberPK/edit"} component={EditProfilePage} /> */}
               <Route exact path={"/editProfile"} component= {EditProfilePage} />
               <Route exact path={"/deleteAccount"} component = {DeleteMemberPage} />
+              <Route exact path={"/signupSuccess"} component = {SignupSuccessPage} />
           </div>
         </UserProvider>
       </BrowserRouter>

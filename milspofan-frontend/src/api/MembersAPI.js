@@ -57,7 +57,7 @@ const getMemberReqs = async(token, memberPK, setMember, setEmail, setNameOnBlog)
 }
 
 //  Signup Form submitted
-let signUpSubmit = async (e, signUpInfo, setSubmitted) => {
+let signUpSubmit = async (e, signUpInfo ) => {
   e.preventDefault()
   if (passwordMatch(signUpInfo.password, signUpInfo.password2 )){
     const options = {
@@ -69,7 +69,6 @@ let signUpSubmit = async (e, signUpInfo, setSubmitted) => {
       
       try{
         let response = await fetch('http://127.0.0.1:8000/members-api/signup/', options)
-        console.log("SignUpInfo: ", signUpInfo)
         console.log("RESPONSE.STATUS", response.status)
         // let data = await response.json()
         // console.log("signUpSubmit > Try > data: ", data)
@@ -85,9 +84,9 @@ let signUpSubmit = async (e, signUpInfo, setSubmitted) => {
 
 
 // ---- Called during submit of edit profile form
-let updateProfile = async (e, token, memberPK, updatedInfo, setSubmitted) => {
+let updateProfile = async (e, token, memberPK, updatedInfo) => {
   e.preventDefault()
-
+  console.log("updatedInfo inside updateProfile°******: ", updatedInfo)
   const options = {
     method: 'PUT', 
     headers: {
@@ -99,11 +98,11 @@ let updateProfile = async (e, token, memberPK, updatedInfo, setSubmitted) => {
     try{
       let response = await fetch(`http://127.0.0.1:8000/members-api/${memberPK}/update`, options)
       console.log("RESPONSE.STATUS", response.status)
-      let responsedata = await response.json()
-      if (response.status === 200){
-        setSubmitted(true)
-      }
-      return responsedata
+      // let responsedata = await response.json()
+      // if (response.status === 200){
+      //   setSubmitted(true)
+      // }
+      return response
     }
     catch(error){
       console.log("Catch: ", error)

@@ -55,7 +55,7 @@ class SignupView(CreateAPIView):
     def perform_create(self, serializer):
         print("PERFORM CREATE STARTS")
         if serializer.is_valid():
-            print(serializer.validated_data)
+            print("perform_create serializer.validated_data", serializer.validated_data)
             username = serializer.validated_data["username"]
             password = serializer.validated_data["password"]
             name_on_blog = serializer.validated_data["name_on_blog"]
@@ -86,18 +86,21 @@ class SignupView(CreateAPIView):
                 public_profile = serializer.validated_data.get("public_profile")
             else:
                 public_profile = None
+
             if serializer.validated_data.get("artistic_disciplines"):
                 artistic_disciplines = serializer.validated_data.get("artistic_disciplines")
             else:
                 artistic_disciplines= None
 
-            new_user = MemberProfile.objects.create_user(username=username, password=password,name_on_blog=name_on_blog, email = email,
-            artist_bio = artist_bio, website = website, image_url = image_url, hashtags = hashtags, public_profile = public_profile
+            new_user = MemberProfile.objects.create_user(username=username, 
+            password=password,
+            name_on_blog=name_on_blog, email = email,
+            artist_bio = artist_bio, website = website, image_url = image_url, hashtags = hashtags, public_profile = public_profile, artistic_disciplines = artistic_disciplines
             )
 
-            if artistic_disciplines:
-                print("INSIDE IF > ARTISTIC-DISCS", artistic_disciplines)
-                new_user.artistic_disciplines.set(artistic_disciplines)
+            # if artistic_disciplines:
+            #     print("INSIDE IF > ARTISTIC-DISCS", artistic_disciplines)
+            #     new_user.artistic_disciplines.set(artistic_disciplines)
             # else:
             #     new_user.artistic_disciplines.set([1, 2])
 

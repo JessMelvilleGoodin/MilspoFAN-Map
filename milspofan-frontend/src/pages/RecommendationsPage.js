@@ -40,8 +40,7 @@ const RecommendationsPage = ({history}) => {
     else {
       return (
         <div>
-          <h1>MilspoFAN Recommendations Page</h1>
-          <h2>Recommendations:</h2>
+          <h1>MilspoFAN Recommendations:</h1>
           <RecsList recs={recs}
             // handleTitleClick={(recID) => history.push(`/recs/${recID}`) } 
             />

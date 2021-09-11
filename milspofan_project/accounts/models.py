@@ -35,26 +35,13 @@ class MemberProfile(AbstractUser):
     image_url = models.CharField(max_length=300, null=True, blank=True)
     hashtags = models.TextField(max_length=2000, null=True, blank=True)
     public_profile= models.BooleanField(default=False, null=True)
-    artistic_disciplines = ArrayField(models.CharField(max_length=50), blank=True, null=True,)
-    # **--
-    # artistic_disciplines = models.ManyToManyField(MemberArtisticDiscipline, related_name='members', blank=True)
-    
-    # location (related_name of MemberLocation) FIELDS: member,location, year_arrived, year_departed
-    # social_links (related_name of MemberSocialLink)FIELDS:  member, social_link
-    # artistic_discipline (related_name of milspofan_app.MemberArtisticDiscipline) FIELDS: name, members
-    
-    
-    # def list_discs(self):
-    #     q_set = self.artistic_disciplines.all()
-    #     ad_names = [axdx.artistic_discipline for axdx in q_set]
-        
-    #     print("HERE IS THE AD LIST: ", ad_names)
-    #     return ad_names
+    artistic_disciplines = ArrayField(models.CharField(max_length=90), blank=True, null=True,)
 
     def __str__(self):
         return f"{self.username}-- Name on Blog: {self.name_on_blog}"
 
 
+# NOT USED
 class MemberLocation(models.Model):
     # members can have multiple MemberLocations, MemberLocations have only one member
     member = models.ForeignKey(MemberProfile, on_delete=models.CASCADE, related_name='locations')

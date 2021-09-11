@@ -22,7 +22,6 @@ const AppNavLinks = () => {
 
   return (
     <div>
-      <Link to={`/members/${currentUserPK}`}>Signed in as: {currentUserName}</Link>
       <Link to={`/`} > Home </Link>
       <Link to={`/recs`} > Recommendations List </Link>
       <Link to={`/members`} > Members List </Link>

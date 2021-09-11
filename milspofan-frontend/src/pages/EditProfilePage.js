@@ -3,7 +3,7 @@ import { useState, useContext, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { useMemberAuth } from "../context/UserContext.js";
 import { updateProfile } from "../api/MembersAPI.js";
-import { artDiscList } from "../components/ArtDiscs/ArtDiscs.js";
+import { artDiscList, getArtDiscPositionsFromMemberArray } from "../components/ArtDiscs/ArtDiscs.js";
 import { UsernameField, PassOneField, PassTwoField, NameOnBlogField, EmailField, ArtistBioField, WebsiteField, ImageURLField, HashtagsField, PublicProfileChoice, ArtDiscBoxes} from "../components/SignInFormFields/SignInFormFields.js"
 import { getMember, getMemberReqs } from "../api/MembersAPI";
 import MemberDetailPage from "./MemberDetailPage.js";
@@ -12,16 +12,31 @@ import {Link} from 'react-router-dom';
 
 const EditProfilePage = () => {
   const [member, setMember] = useState('')
+  const [memberADBooleanList, setmemberADBooleanList] = useState()
   
   const { currentUserName, currentUserPK, token, getCookie, deleteCookies } = useMemberAuth();
 
   useEffect( () => {
     console.log("USE EFFECT GOES. Email: ", email)
-    getMemberReqs(token, currentUserPK, setMember, setEmail, setNameOnBlog)
+    const fetchData = async () =>{
+      let respBody =  await getMemberReqs(token, currentUserPK)
+      // setmemberADBooleanList(adarrSet)
+      setMember(respBody)
+      setEmail(respBody.email)
+      setNameOnBlog(respBody.name_on_blog)
+      console.log(respBody.email)
+      let adarrSet = getArtDiscPositionsFromMemberArray(respBody)
+      console.log("adarrSet", adarrSet)
+      // setmemberADBooleanList(adarrSet)
+      setArtDiscCheckboxes(adarrSet)
+      
+    }
+    fetchData()
   }, [])
 
 
-    const locationButtonHandler = () =>{
+
+  const locationButtonHandler = () =>{
     console.log("LocationEdit Button Click")
   }
 
@@ -48,9 +63,10 @@ const EditProfilePage = () => {
   
   // array of booleans
   const [artDiscCheckboxes, setArtDiscCheckboxes] = useState(
-    new Array(artDiscList.length).fill(false));
+    []);
   const [submitted, setSubmitted] = useState(false);
   const [regErrors, setRegErrors] = useState(false)
+  
     
     // Form Change Handlers
     const handleChangeStandard = (e, setFieldFunc) => {
@@ -110,7 +126,6 @@ const EditProfilePage = () => {
     if (!submitted){
       return(
         <div>
-          <h4>Submitted = {submitted.toString()}</h4>
           <h6>{regErrors}</h6>
 
 

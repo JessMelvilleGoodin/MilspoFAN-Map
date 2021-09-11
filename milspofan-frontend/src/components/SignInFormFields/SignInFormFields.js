@@ -100,8 +100,8 @@ const ArtistBioField = (props) => {
 const WebsiteField = (props) => {
   return (
     <div>
-      <label htmlFor="website">Website:</label>
-      <h5>Website URL must include "https://www."</h5>
+      <label htmlFor="website">Website: (Website URL must include "https://www.")</label>
+
       <input 
         name="website-in" 
         type="text"
@@ -147,7 +147,8 @@ const HashtagsField = (props) => {
 const PublicProfileChoice = (props) => {
   return(
     <div>
-      <label htmlFor="publicProfile">Public Profile? :</label>
+      <h5><label htmlFor="publicProfile">Public Profile? :</label></h5>
+      <p>Check the box to allow other logged in members to view your profile</p>
       <input 
         type = "checkbox" 
         name= "publicProfile-in" 
@@ -163,19 +164,16 @@ const PublicProfileChoice = (props) => {
         //   props.setPublicProfile(!props.publicProfile)
         }
         />
-        <p>"Check here to allow other logged in members to view your profile"</p>
-        <p>Currently set to: {props.publicProfile ? "checked" : "unchecked"}</p>
-
-        <p>Currently set to: {props.publicProfile.toString()}</p> 
     </div>
   )
 }
 
 const handleArtDiscChecks = (position, artDiscCheckboxes, setArtDiscCheckboxes, artDiscList, setArtisticDisciplines) => {
-  console.log(typeof artDiscCheckboxes)
-  console.log("ArtDisc", position)
+  // console.log("[[[[", artDiscCheckboxes.toString())
+  // console.log(";;;", artDiscCheckboxes)
+  // console.log("ArtDisc", position)
   const updatedCheckedState = artDiscCheckboxes.map((item, index) => 
-  index === position ? !item :item
+  index === position ? !item : item
   )
   
   
@@ -187,7 +185,7 @@ const handleArtDiscChecks = (position, artDiscCheckboxes, setArtDiscCheckboxes, 
       if (thisBooleanValue === true){
         newArr.push(artDiscList[index])
       }
-      console.log("INSIDE createArtDiscList: ", newArr)
+      // console.log("INSIDE createArtDiscList: ", newArr)
       return newArr;
     }, []);
 
@@ -196,9 +194,10 @@ const handleArtDiscChecks = (position, artDiscCheckboxes, setArtDiscCheckboxes, 
 
 // Array of boolean values
 const ArtDiscBoxes = (props) => {
-  console.log("PROPR.ADB: ", props.artDiscCheckboxes)
+  
   return (
     <div>
+      <h5> Artistic Discipline(s):</h5>
       <ul className = "artDiscList">
         {props.artDiscList.map((artDisc, index) => {
           return(

@@ -20,13 +20,13 @@ const SignupPage = () => {
   const [publicProfile, setPublicProfile ] = useState(false);
   const [artisticDisciplines, setArtisticDisciplines ] = useState([]);
 
-  const [artDiscCheckboxes, setArtDiscCheckboxes] = useState([
-    new Array(artDiscList.length).fill(false)]);
+  const [artDiscCheckboxes, setArtDiscCheckboxes] = useState(
+    new Array(artDiscList.length).fill(false));
 
   const [submitted, setSubmitted] = useState(false);
   const [regErrors, setRegErrors] = useState(false)
   
-  console.log("SUP.ADCB: ", typeof artDiscCheckboxes)
+  // console.log("*******SUP.ADCB: ", artDiscCheckboxes, artDiscList.length)
 
   const { currentUserName, currentUserPK, token, getCookie, deleteCookies, loginOnSubmit } = useMemberAuth();
   // const memberContext = useContext(UserContext)
@@ -34,7 +34,7 @@ const SignupPage = () => {
   // Form Change Handlers
   const handleChangeStandard = (e, setFieldFunc) => {
     let value = e.target.value
-    console.log("Field: ", setFieldFunc, "VALUE: ", value )
+    // console.log("Field: ", setFieldFunc, "VALUE: ", value )
     setFieldFunc(value)
     
   }
@@ -60,6 +60,7 @@ const SignupPage = () => {
 
       let x = await signUpSubmit(e, signUpInfo)
       console.log("SignUp Response: ", x)
+      // console.log ("Signup Response as text: ", x.text())
 
       if ( x && x.status === 201 ){
         let xjson = await x.json()

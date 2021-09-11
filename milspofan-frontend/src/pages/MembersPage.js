@@ -50,7 +50,7 @@ const MembersPage = ({history}) => {
       // if (userInfo.token){
         return (
           <div>
-              <h2>MilspoFAN Members: </h2>
+              <h1>MilspoFAN Members: </h1>
               <MembersList members={members}
               // handleTitleClick={(memberID) => history.push(`/members/${memberID}`) } 
               />

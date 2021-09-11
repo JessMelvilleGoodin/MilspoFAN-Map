@@ -58,7 +58,7 @@ class MemberSerializer(serializers.ModelSerializer):
 
     recommendations = serializers.StringRelatedField(many=True, read_only=True)
     
-    \
+    
     # **--
     # artistic_disciplines = MemberArtisticDisciplineSerializer(many=True, required=False
     # , read_only = True
@@ -84,7 +84,15 @@ class SignupSerializer(serializers.ModelSerializer):
     
     # **--
     # artistic_disciplines = MemberArtisticDisciplineSerializer(many=True, required=False)
+    # locations = serializers.StringRelatedField(many=True,read_only=True)
+    # # locations = MemberLocationSerializer(many=True)
+
+    # social_links = serializers.StringRelatedField(many=True,read_only=True)
+    
+    # announcements = serializers.StringRelatedField(many=True,read_only=True)
+
+    # recommendations = serializers.StringRelatedField(many=True, read_only=True)
 
     class Meta:
         model = MemberProfile
-        fields = ["username", "password", "name_on_blog", "email", "artist_bio", "website", "image_url", "hashtags", "public_profile", "artistic_disciplines"]
+        fields = ['pk', 'id', 'username', 'password', 'name_on_blog', 'email', 'artist_bio', 'website', 'image_url', 'hashtags', 'public_profile', 'artistic_disciplines']

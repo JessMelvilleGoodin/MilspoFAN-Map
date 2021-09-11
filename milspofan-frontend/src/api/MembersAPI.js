@@ -40,7 +40,7 @@ const getMember = async(token, memberPK, setMember) => {
   setMember(responseBody)
 }
 
-const getMemberReqs = async(token, memberPK, setMember, setEmail, setNameOnBlog) => {
+const getMemberReqs = async(token, memberPK) => {
   let options = {
     method: 'GET', 
     headers: {
@@ -50,14 +50,16 @@ const getMemberReqs = async(token, memberPK, setMember, setEmail, setNameOnBlog)
     }
   const response = await fetch(`http://127.0.0.1:8000/members-api/members/${memberPK}`, options)
   const responseBody = await response.json()
-  setMember(responseBody)
-  console.log(responseBody)
-  setEmail(responseBody.email)
-  setNameOnBlog(responseBody.name_on_blog)
+  return responseBody
+  // setMember(responseBody)
+  // console.log(responseBody)
+  // setEmail(responseBody.email)
+  // setNameOnBlog(responseBody.name_on_blog)
 }
 
 //  Signup Form submitted
 let signUpSubmit = async (e, signUpInfo ) => {
+  console.log("signUpSubmit signUpInfo: ", signUpInfo)
   e.preventDefault()
   if (passwordMatch(signUpInfo.password, signUpInfo.password2 )){
     const options = {
